@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>플로팅 뮤직 플레이어 테스트 페이지</title>
+    <style>
+        .body {
+            overflow: hidden;
+        }
+        /* 본문 콘텐츠 스타일 */
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        /* 플로팅 플레이어 영역 */
+        #floatingPlayer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 600px;
+            height: 400px;
+            z-index: 9999;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            cursor: move;   /* 드래그 가능한 커서 표시 */
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>플로팅 뮤직 플레이어 테스트 페이지</h1>
+    <p>
+        이 페이지는 다른 콘텐츠와 함께 플로팅 플레이어를 테스트하기 위한 더미 페이지입니다.
+        아래 우측에 고정된 플레이어 모듈을 확인하세요.
+    </p>
+    <!-- 충분한 더미 텍스트로 스크롤 가능하도록 -->
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae tortor eget risus fermentum tincidunt. Cras vitae magna vitae arcu commodo tincidunt. Suspendisse potenti. Proin eget dignissim metus. Nulla facilisi. Morbi vehicula, sapien a suscipit hendrerit, libero erat porttitor erat, nec cursus nibh ex in orci. Sed faucibus elit sed turpis cursus, eget pharetra libero tincidunt. Curabitur auctor augue in ligula ullamcorper, ac fermentum magna tincidunt. Vivamus tincidunt, justo sit amet congue consequat, enim erat faucibus lorem, a commodo nunc nibh a ipsum. Fusce a velit in libero tempus consectetur.</p>
+    <p>Ut commodo, nulla sit amet lacinia facilisis, ligula lacus tincidunt purus, a bibendum mauris nulla ac ex. Mauris luctus lectus id urna fermentum, et consectetur mauris convallis. Cras commodo tincidunt ante, vel vulputate ex ullamcorper eget. In hac habitasse platea dictumst. Donec in cursus turpis. Donec sit amet convallis nisl, at hendrerit libero. Integer sed ullamcorper lectus.</p>
+    <p>Praesent rutrum, magna et cursus tincidunt, massa nunc bibendum velit, ut aliquam tortor leo sed nunc. Donec eu vestibulum augue, vitae consequat ligula. Suspendisse vulputate scelerisque lacus in luctus. Fusce lacinia interdum mauris, eget tincidunt lectus. Integer ultrices nisl et ligula consectetur, ut condimentum urna aliquet. Sed nec semper libero. Aliquam erat volutpat.</p>
+    <p>1. 서론
+
+        유비쿼터스 컴퓨팅은 "어디에나 존재하는 컴퓨터"라는 뜻으로, 이전의 “웨어러블 컴퓨팅”과 같은 일상에서 사용되는 도구에 컴퓨터를 넣으려 시도했던 역사를 지나, 실질적으로 유비쿼터스 컴퓨팅 기술에 대한 연구는 제록스 팔로 알토 연구소에서 시작되었다고 알려져 있다. 제록스 팔로 알토 연구소의 마크 와이저가 제시한 유비쿼터스 컴퓨팅 개념에 따르면 우리 일상생활 곳곳에 컴퓨터 기술이 스며들어, 사용자가 컴퓨터를 의식하지 않고도 자연스럽게 정보를 주고받을 수 있는 환경을 의미한다. 유비쿼터스 컴퓨팅 기술은 다음과 같은 종류가 있다.
+
+        1) 사물인터넷(Internet of Things, IoT) 기술
+        기능 및 기술: 다양한 사물들이 인터넷으로 연결되어 정보를 주고받는 기술을 의미한다. 우리 주변의 사물을 지능화하여 삶의 편의를 제공한다. 가전제품, 자동차, 건물 등 다양한 사물에 적용되어 해당 사물을 원격으로 제어하거나 상태를 모니터링할 수 있으며 특정 조건에 따른 기능 작동(자동화)이 가능하다.
+        사물인터넷 기술을 포함하는 서비스: IoT 기술의 대표적인 예시인 스마트홈 시스템은 IoT 기술을 활용하여 가정 내 기기들을 제어하는 기술로 사용자는 인터넷이 연결된 환경에서 실제로 기기를 조작하지 않고도 IoT 플러그를 통해 원격으로 가전제품의 전원 제어를 하거나 스마트 홈캠으로 집 내부를 확인할 수 있으며, 인터넷과 연결된 스마트 초인종을 통해 사용자가 집에 없는 상황에서도 방문 알림을 받거나 방문자에게 원격으로 응답을 할 수도 있다.
+
+        2) 가상현실(Virtual Reality) 기술
+        기능 및 기술: 컴퓨터로 만들어낸 가상의 환경에서 사용자가 시각, 청각, 촉각 등을 통해 실제와 같은 경험을 할 수 있도록 해주는 기술이다. 사용자는 HMD(Head Mounted Display)와 같은 특수한 디스플레이 장치와 가상 환경 내에서 행동하기 위하여 특수한 컨트롤러 혹은 모션 트래킹 장비를 이용한다. 현실에서는 체험할 수 없는 환경에 대해 구현이 가능하고, 사용자가 해당 환경과 상호작용이 가능한 특징이 있다. 최근의 가상 현실 기술은 패스스루(Pass-Through) 카메라를 도입해 증강 현실 기술을 동시에 사용하기도 하며 위와 같이 증강현실과 가상현실을 아울러 혼합 현실(Mixed Reality)라는 개념으로 부르기도 한다.
+        가상현실을 포함하는 서비스: 가상 현실을 통해 실제와 동일한 형태의 체험학습이 가능해질 것이며, 의료 분야에서는 다양한 케이스의 수술 시뮬레이션이나 원격진료가 가능해질 것이다. 또한 실제로는 존재하지 않는 특수한 환경을 제공하는 관광 상품을 제공하거나 가상 캐릭터의 공연을 보는 등의 다양한 엔터테인먼트 컨텐츠가 제공 될 것이다.
+
+        3) 로봇 기술
+        기능 및 기술: 인간을 대신해 물리적인 작업을 수행하거나, 인간과 상호작용할 수 있는 지능형 기계를 개발하는 기술이다. 프로그래밍된 명령에 따라 움직이고, 각종 센서를 통해 환경을 인식하고 동작을 수행하는 단순 반복 작업이 주된 임무였으나 최근에는 인공지능 기술과 결합하여 고도의 지적 작업까지 인간의 노동을 매우 다양한 영역에서 보조할 수 있다. 산업용, 의료, 구난, 취미, 놀이, 군사용 로봇 등 다채로운 분야에서 활용된다.
+        로봇 기술을 포함하는 서비스: 고령화 사회에 대응하여 노인 돌봄이나 간병을 담당하는 로봇이 개발되고, 화재 현장과 같은 사람이 투입하기 어렵거나 불가능한 환경에서 인명 구조가 가능한 구난 로봇이, 인간이 접근하기 어려운 극한 환경에 대한 탐사도 탐사 로봇이 활용될 것이다. 일상생활에서는 인공지능과 결합된 개인 비서 로봇이나 가정 내 청소나 요리 등을 대신해주는 가정용 로봇의 도움을 받을 수도 있을 것으로 보인다.
+
+        4) 인공지능 기술
+        기능 및 기술 : 인간의 지능을 모방하여 스스로 학습하거나 추론해낼 수 있는 컴퓨터 시스템을 만드는 기술로, 방대한 데이터를 분석하거나 특정 패턴을 찾아내어 스스로 최적의 의사 결정을 내리거나 자연어 처리, 음성 인식, 이미지/동영상 인식 등의 다양한 기능을 수행할 수 있는 기술이다. 최근에는 딥러닝(Deep Learning)과 같은 기계 학습 알고리즘의 발전으로 인공 지능의 성능이 빠르게 향상되고 있다.
+        인공지능을 포함하는 서비스: 4차 산업혁명의 가장 핵심적인 기술로 상기된 3개의 기술에도 미래에는 인공지능이 필수적으로 포함 될 것이며, 스마트 홈에서 사용자가 별도로 조작하지 않아도 인공지능이 현재 날씨 데이터를 스스로 분석하여 집안의 온도를 조작하거나 보안 시스템을 관리할 것이며 가상 현실 내에서 현실에서는 존재하지 않는, 인공지능이 통제하는 NPC(Non Player Character)를 담당하거나 가정 내 개인 비서 로봇에 탑재되어 일정을 스스로 분석하고 사용자가 적절한 의사선택을 할 수 있도록 도움을 주는 등 필수적인 기술로 자리잡게 될 것이다.
+
+        2. 미래 일상생활 시나리오
+
+        2050년 7월 15일 아침, 나는 스마트 워치의 알람으로 잠에서 깼다. 알람이 울리자마자 스마트 홈 시스템이 인공지능을 통해 현재 날씨를 분석하고, 실내 온도와 습도를 자동으로 조절하고, 창문과 블라인드를 자동으로 개방하여 기분 좋은 햇살을 맞이하게 해주었다. 거실로 나가자 개인 비서 로봇이 반갑게 인사하며 오늘의 일정을 브리핑해 주었다. 일정의 우선순위가 바뀌어 A일정을 앞당겨 달라고 요청했고, AI 비서는 해당 요청에 따라 다른 일정에 관련된 모든 항목을 자동으로 조정했다.
+
+        아침 식사를 하기 위해, 증강현실을 통해 유명 셰프의 요리를 직접 시도 해보는 시간을 가졌다. 전혀 모르는 요리였지만 자동으로 식자재가 제공되고, 유명 셰프의 모습대로 조리를 하면 되어 어렵지 않게 끝낼 수 있었다. 요리가 완성되자 IoT 기술이 적용된 식기가 영양 정보를 분석하여 나의 건강 상태를 체크했다. 홀로그램 뉴스를 보며 아침 식사를 마쳤다. 옷장으로 가니 오늘 일정에 알맞은 추천 복장으로 정렬이 되어 있어 해당 복장을 입기로 했다.
+
+        회사에 가기 위해 자율주행차에 올라탔다. 차 안에서는 VR 기기를 통해 어제 진행하던 프로젝트의 세부 내용을 가상 시뮬레이션을 통해 다시 한번 점검할 수 있었다. 회사에 도착해서는 협업 로봇과 함께 업무를 진행했다. 로봇은 복잡한 데이터 분석과 반복적인 문서 작업을 빠르고 정확하게 처리해 주었다.
+
+        점심 시간에는 식당에 들어서자 점원 로봇이 나의 최근 식사 메뉴들을 분석하여 오늘의 추천 메뉴를 제안했다. 추천 메뉴를 선택하자 스마트 조리기기를 통해 자동으로 요리가 완료된 후 배식되었다.
+
+        퇴근 후에는 친구들과 가상현실 게임을 즐겼다. 가상의 넓은 공간에서 뛰어다니며, 몬스터들과 실제로 전투를 벌이는 듯한 생생한 경험이었다.
+
+        집에 돌아와 휴식을 취하기 위해 침대에 눕자 스마트 홈 시스템이 침실의 조명과 온도를 최적의 수면 환경으로 조성해 주었다. 잠들기 전, AI 비서에게 내일 일정을 확인하고 필요한 자료를 준비해 달라고 요청했다.
+
+        3. 예측되는 문제점 및 과제와 해결방안
+
+        유비쿼터스 컴퓨팅 기술이 우리의 일상 속에 깊이 자리 잡으면서 삶이 편리해지고 효율성이 높아질 것으로 기대되지만, 이와 동시에 여러 문제점과 해결해야 할 과제들도 예상된다.
+
+        먼저 개인정보 침해와 프라이버시 문제가 대두될 수 있다. 사물인터넷 기술로 인해 우리의 일상 속 모든 정보가 수집, 분석되고 이를 바탕으로 맞춤형 서비스가 제공되는 것은 편리하지만, 한편으로는 개인의 사생활이 침해될 위험이 있다. 조지 오웰의 소설 '1984'에서처럼 빅 브라더(Big Brother)가 우리의 모든 행동을 감시하고 통제하는 디스토피아적 미래가 현실이 될 수도 있다는 우려 또한 존재한다.
+
+        그리고 기술 종속성과 인간성 상실의 우려 또한 있다. 지나치게 기술에 의존하게 되면서 인간이 가진 능력들이 퇴화하고, 대인 관계가 협소해지거나 의사소통 능력이 저하될 수 있다. 가상현실에 몰입하느라 현실 세계와의 괴리감을 느끼거나, 로봇이나 AI와 더 많이 상호작용하게 되면서 인간 대 인간의 소통이 줄어들 수 있다.
+
+        또한 기술 격차로 인한 불평등 문제가 심화될 수 있다. 최신 기술을 활용할 수 있는 계층과 그렇지 못한 계층 간의 격차가 커지면서, 정보와 기회의 불평등이 더욱 확대될 수 있다. 기술을 독점한 특정 기업이나 국가가 막대한 권력을 쥐게 될 수도 있다. 이러한 모습은 ‘사이버펑크’라는 SF 장르의 특성으로도 보여지는데, 메가코프(Megacorporation)라 불리는 초거대기업들은 기업 소속의 사병을 육성하거나 법적 질서를 재창조 하는 등의 국가를 뛰어넘은 권력을 소유하여 해당 집단의 리더(개인)이 국가나 세계를 좌지우지 할 정도의 힘을 가지게 되기도 한다. 또한 계층 간 격차가 너무나 커지면서 하위 계층은 각종 신종 마약, 이를테면 전자 마약과 같은 환락에 빠져 헤어나오지 못하는 모습을 그리기도 한다.
+
+        이 밖에도 기술 오작동이나 보안 문제, 일자리 감소, 윤리적 딜레마 등 다양한 과제들이 아직 해결되지 않은 문제로 남아있으며, 이러한 문제점들을 최소화하고 기술의 긍정적 효과를 극대화하기 위해서는 기술 개발과 함께 사회적, 윤리적 논의가 필요하다. 상기된 문제점들을 최소화하기 위해서는 다음과 같은 대처방안을 고려할 수 있다.
+
+        개인정보 보호를 위한 제도적인 장치를 마련하여 엄격하게 개인정보 수집 및 활용에 대한 기준을 세우고, 개인의 동의와 해당 정보에 대한 통제권을 강화해야 한다. 특정 기술을 개발하는 단계에서부터 프라이버시를 중심으로 설계하는 것 또한 고려해야 한다.
+
+        또한 기술 과몰입을 예방하고 사용자가 건전한 접근을 하도록 유도해야 하며, 개인의 삶의 질 향상에 초점을 맞추어야 한다. 가상 현실이나 게임등에 대한 중독 예방 교육과 치유 프로그램을 제공할 수 있어야 한다. 가족이나 친구 간 대화 등 실제 활동을 장려하는 캠페인 등을 펼칠 수도 있다.
+
+        기술 격차 해소를 위한 노력 또한 중요하다. 기술 교육 기회를 확대하고, 취약 계층에 대한 지원은 더욱 강화해야 한다. 기술의 혜택을 모두가 누릴 수 있도록 공적인 투자, 정책적인 뒷받침이 이루어져야 한다.
+
+        4차 산업혁명 시대를 맞이하여 우리는 기술에 대한 비판적 사고와 균형 잡힌 시각을 가져야 한다. 기술이 가져다주는 편익과 혜택만을 바라보며 맹목적으로 신뢰하기보다는, 그로 인해 발생할 수 있는 부작용과 위험성에 대해서도 늘 경계심을 가지고 대비해야 한다. 무엇보다 기술의 발전 속에서도 인간다움을 잃지 않기 위해 노력해야 할 것이다. 이를 위해 교육 현장에서도 첨단 기술에 대한 이해와 활용 능력을 키워주는 동시에, 인문학적 소양과 윤리 의식을 함양할 수 있도록 지도 해야 한다.
+
+        기술의 발전은 거스를 수 없는 시대적 흐름이다. 특히 4차 산업혁명으로 인해 그 속도와 파급력은 날이 갈수록 빨라지고, 커지고 있다. 그러나 우리가 기술의 주인이 되지 못하고 오히려 기술의 지배를 받게 되선 안되며 중요한 것은 기술을 발전시켜 나가는 과정에서 인간의 존엄성이 훼손되지 않도록, 기술과 인간이 조화를 이루며 공존할 수 있는 방향으로 나아가는 것이다.</p>
+</div>
+<!-- 플로팅 플레이어: musicplayer.html 파일을 불러옴 -->
+<iframe id="floatingPlayer" src="musicplayer.html"></iframe>
+</body>
+<script>
+    // 드래그 가능하게 만드는 순수 JavaScript 코드
+    (function() {
+        const draggable = document.getElementById("floatingPlayer");
+        let offsetX = 0, offsetY = 0, isDragging = false;
+
+        draggable.addEventListener("mousedown", function(e) {
+            isDragging = true;
+            // 마우스 클릭 위치와 요소의 현재 위치 차이 계산
+            offsetX = e.clientX - draggable.getBoundingClientRect().left;
+            offsetY = e.clientY - draggable.getBoundingClientRect().top;
+            draggable.style.cursor = "grabbing";
+        });
+
+        document.addEventListener("mousemove", function(e) {
+            if (isDragging) {
+                // 새로운 위치를 계산하여 요소의 left, top을 설정
+                draggable.style.left = (e.clientX - offsetX) + "px";
+                draggable.style.top = (e.clientY - offsetY) + "px";
+                // position: fixed 요소의 경우 left/top를 직접 조정할 수 있음
+            }
+        });
+
+        document.addEventListener("mouseup", function(e) {
+            isDragging = false;
+            draggable.style.cursor = "move";
+        });
+    })();
+</script>
+</html>
