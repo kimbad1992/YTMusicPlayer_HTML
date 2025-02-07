@@ -198,7 +198,6 @@
 <body>
 <div class="player-container">
     <img id="albumCover" class="album-cover" src="cover1.jpg" alt="앨범 커버">
-    <!-- 새로 추가된 곡 정보 표시 영역 -->
     <div id="trackDetails"></div>
     <div class="controls">
         <button id="playPauseBtn" class="play-button">▶</button>
@@ -207,26 +206,22 @@
     <div class="progress-container">
         <input type="range" id="progressBar" min="0" max="100" value="0">
     </div>
-    <!-- 재생목록 컨테이너 (동적 생성) -->
     <div class="playlist" id="playlistContainer">
         <h3>🎵 재생 목록</h3>
     </div>
 </div>
 <div id="player"></div>
-<!-- 임시 플레이어 컨테이너 (숨김) -->
 <div id="tempPlayer"></div>
 
 <script>
-    // 실제 재생목록이 들어갈 배열
-    // 유튜브 링크의 watch?v=...의 값을 videoId로 등록
-    // title 속성 지정 시 유튜브 제목이 아닌 이곳에 지정한 값으로 나옴
+    // tracks 배열 (videoId, cover, title; title이 비어있으면 임시 플레이어에서 가져올 예정)
     const tracks = [
-        {videoId: "H8U0jdveLbo", cover: "cover1.jpg", title: "custom Title"},
-        {videoId: "5JqY-6q-RNA", cover: "cover2.jpg"},
-        {videoId: "oPA0z4W-kcU", cover: "cover3.jpg"}
+        { videoId: "H8U0jdveLbo", cover: "cover1.jpg", title: "custom Title" },
+        { videoId: "5JqY-6q-RNA", cover: "cover2.jpg", title: "" },
+        { videoId: "oPA0z4W-kcU", cover: "cover3.jpg", title: "" }
     ];
 
-    // YouTube IFrame API를 이용해 임시 플레이어로 곡 정보를 가져오는 함수
+    // 임시 플레이어를 사용해서 곡 정보를 가져오는 함수
     function fetchTrackInfo(videoId) {
         return new Promise((resolve, reject) => {
             const tempDiv = document.createElement("div");
@@ -237,14 +232,13 @@
                 width: "0",
                 videoId: videoId,
                 events: {
-                    onReady: function (event) {
-                        // 약간의 딜레이 후에 정보 획득
+                    onReady: function () {
                         setTimeout(() => {
                             const videoData = tempPlayer.getVideoData();
                             const duration = tempPlayer.getDuration();
                             tempPlayer.destroy();
                             tempDiv.remove();
-                            resolve({title: videoData.title, totalSeconds: duration});
+                            resolve({ title: videoData.title, totalSeconds: duration });
                         }, 500);
                     },
                     onError: function (e) {
@@ -262,7 +256,6 @@
         return tracks.reduce((chain, track) => {
             return chain.then(() =>
                 fetchTrackInfo(track.videoId).then(info => {
-                    // 만약 track.title이 없다면 YouTube에서 가져온 타이틀(info.title)을 사용
                     if (!track.title) {
                         track.title = info.title;
                     }
@@ -272,7 +265,6 @@
         }, Promise.resolve());
     }
 
-
     // mm:ss 포맷 함수
     function formatTime(seconds) {
         seconds = isNaN(seconds) ? 0 : seconds;
@@ -280,14 +272,6 @@
         const secs = Math.floor(seconds % 60);
         return minutes + ":" + (secs < 10 ? "0" + secs : secs);
     }
-
-    // 모든 트랙 정보 불러온 후 재생목록 동적 생성
-    fetchAllTrackInfo()
-        .then(() => {
-            drawPlaylist();
-            // 임시 플레이어 정보 불러오기 완료 후 메인 플레이어 생성은 onYouTubeIframeAPIReady에서 처리됨
-        })
-        .catch(err => console.error("트랙 정보 불러오기 에러", err));
 
     // 재생목록 동적 생성 함수
     function drawPlaylist() {
@@ -306,7 +290,6 @@
 
             const timeSpan = document.createElement("span");
             timeSpan.className = "time-display";
-            // 초기에는 전체 재생시간 표시
             timeSpan.textContent = formatTime(track.totalSeconds);
 
             const equalizerSpan = document.createElement("span");
@@ -373,7 +356,6 @@
         }
 
         function onPlayerStateChange(event) {
-            // 만약 플레이어 상태가 PLAYING인데 isPlaying이 false라면(즉, autoplay로 재생된 경우)
             if (event.data === YT.PlayerState.PLAYING && !isPlaying) {
                 isPlaying = true;
                 document.getElementById('playPauseBtn').textContent = '⏸';
@@ -439,7 +421,6 @@
             });
         }
 
-        // 재생목록 active 항목 업데이트 및 시간 표시
         function updatePlaylistInfo(timeText) {
             const items = document.querySelectorAll('.playlist-item');
             items.forEach((item, idx) => {
@@ -457,10 +438,14 @@
                     }
                 }
             });
-            updateTrackDetails(); // 현재 트랙 정보 업데이트
+            updateTrackDetails();
         }
 
         function changeTrack(index) {
+            if (!player || typeof player.loadVideoById !== "function") {
+                setTimeout(() => changeTrack(index), 500);
+                return;
+            }
             currentTrack = index;
             player.loadVideoById(tracks[currentTrack].videoId);
             document.getElementById('albumCover').src = tracks[currentTrack].cover;
@@ -480,13 +465,9 @@
             changeTrack(currentTrack);
         }
 
-        // 앨범 자켓 아래에 현재 트랙 정보를 업데이트하는 함수
         function updateTrackDetails() {
             const detailsEl = document.getElementById("trackDetails");
             const track = tracks[currentTrack];
-            if (!track) {
-                track.title = '';
-            }
             detailsEl.innerHTML = `<strong>${track.title}</strong><br/>전체시간: ${formatTime(track.totalSeconds)}`;
         }
 
@@ -499,14 +480,14 @@
 
     PlayerModule.init();
 
-    function onYouTubeIframeAPIReady() {
-        // 메인 플레이어 생성 전에 임시 플레이어로 트랙 정보를 불러온 후 진행
-        fetchAllTrackInfo()
-            .then(() => {
-                drawPlaylist();
-                PlayerModule.onYouTubeIframeAPIReady();
-            })
-            .catch(err => console.error("트랙 정보 불러오기 에러", err));
+    async function onYouTubeIframeAPIReady() {
+        try {
+            await fetchAllTrackInfo();
+            drawPlaylist();
+            PlayerModule.onYouTubeIframeAPIReady();
+        } catch (err) {
+            console.error("트랙 정보 불러오기 에러", err);
+        }
     }
 </script>
 </body>
