@@ -10,34 +10,30 @@
         /* 기본 스타일 */
         body {
             font-family: Arial, sans-serif;
-            background: #1e1e1e;
-            color: white;
+            background: #FFFCF0;
+            color: #272d2e;
             text-align: center;
         }
-
         .player-container {
-            max-width: 400px;
-            margin: 50px auto;
+            max-width: 100%;
+            margin: 0px auto;
             padding: 20px;
-            background: #292929;
+            background: #f8f0d1;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(70, 67, 67, 0.147);
         }
-
         .album-cover {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 10px;
         }
-
         /* 곡 정보 영역 */
         #trackDetails {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 12px;
             line-height: 1.4;
         }
-
         .controls {
             display: flex;
             justify-content: center;
@@ -45,61 +41,66 @@
             gap: 10px;
             margin-top: 10px;
         }
-
         .play-button {
-            font-size: 18px;
-            background: #ff5050;
+            font-size: 12px;
+            background: #FFBB00;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        /* 볼륨 슬라이더 */
+        /* 랜덤 토글 버튼 스타일 */
+        #randomToggleBtn {
+            font-size: 12px;
+            background: #f44336; /* 꺼짐 상태: 빨간색 */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #randomToggleBtn.active {
+            background: #4CAF50; /* 켜짐 상태: 초록색 */
+        }
+        /* 볼륨 슬라이더 (커스텀 디자인) */
         .volume-slider {
             width: 100px;
             -webkit-appearance: none;
             background: transparent;
         }
-
         .volume-slider::-webkit-slider-runnable-track {
             width: 100%;
             height: 6px;
             background: #ddd;
             border-radius: 3px;
         }
-
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #ff5050;
+            background: #FFBB00;
             margin-top: -7px;
             cursor: pointer;
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
         }
-
-        /* 프로그레스바 */
+        /* 프로그레스바 (커스텀 디자인) */
         .progress-container {
             margin: 10px 0;
         }
-
         #progressBar {
             width: 100%;
             -webkit-appearance: none;
             background: transparent;
         }
-
         #progressBar::-webkit-slider-runnable-track {
             width: 100%;
             height: 8px;
-            background: linear-gradient(90deg, #ff5050, #ff7f00, #ffff00, #00ff00, #0000ff);
-            border-radius: 4px;
+            background: linear-gradient(90deg, #ff7f00, #ffaa00, #FFBB00, #FFBB00, #d8dea9, #00ff95b4);
             cursor: pointer;
         }
-
         #progressBar::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 16px;
@@ -110,13 +111,11 @@
             margin-top: -4px;
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
         }
-
-        /* 재생목록 */
+        /* 재생목록 동적 생성 영역 */
         .playlist {
             margin-top: 20px;
             text-align: left;
         }
-
         .playlist-item {
             display: flex;
             justify-content: space-between;
@@ -124,42 +123,36 @@
             padding: 10px;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 12px;
         }
-
         .playlist-item:hover {
-            background: #3a3a3a;
+            background: #3a3a3a17;
         }
-
         .playlist-item.active {
-            background: rgba(255, 80, 80, 0.2);
+            background: rgba(255, 182, 80, 0.2);
             border-radius: 8px;
         }
-
         .track-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .time-display {
-            font-size: 14px;
-            color: #ff5050;
+            font-size: 12px;
+            color: #ff9050;
             min-width: 80px;
             text-align: right;
         }
-
-        /* Equalizer (활성화된 항목에서만 보임) */
+        /* Equalizer: active 항목에서만 보임 */
         .equalizer {
             display: none;
         }
-
         .playlist-item.active .equalizer {
             display: inline-flex;
             vertical-align: middle;
-            height: 30px;
+            height: 20px;
             overflow: hidden;
         }
-
         .equalizer .bar {
             width: 6px;
             height: 30px;
@@ -167,28 +160,22 @@
             transform-origin: bottom;
             transition: transform 0.2s ease-in-out;
         }
-
         .equalizer .bar:nth-child(1) {
-            background-color: #FF0000;
-        }
-
-        .equalizer .bar:nth-child(2) {
             background-color: #FF7F00;
         }
-
+        .equalizer .bar:nth-child(2) {
+            background-color: #ffbf00;
+        }
         .equalizer .bar:nth-child(3) {
-            background-color: #FFFF00;
+            background-color: #ffaa00;
         }
-
         .equalizer .bar:nth-child(4) {
-            background-color: #00FF00;
+            background-color: #d8dea9;
         }
-
         .equalizer .bar:nth-child(5) {
-            background-color: #0000FF;
+            background-color: #00ff95;
         }
-
-        /* 숨김 처리할 임시 요소 (더 이상 사용하지 않음) */
+        /* 숨김 처리할 임시 플레이어 */
         #tempPlayer {
             display: none;
         }
@@ -200,24 +187,40 @@
     <div id="trackDetails"></div>
     <div class="controls">
         <button id="playPauseBtn" class="play-button">▶</button>
-        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="50">
+        <!-- 랜덤재생 토글 버튼 -->
+        <button id="randomToggleBtn" class="play-button">랜덤: 꺼짐</button>
+        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70">
     </div>
     <div class="progress-container">
         <input type="range" id="progressBar" min="0" max="100" value="0">
     </div>
     <div class="playlist" id="playlistContainer">
-        <h3>🎵 재생 목록</h3>
+        <h3 style="font-size: 13px;">🐝 재생 목록 </h3>
     </div>
 </div>
 <div id="player"></div>
 <div id="tempPlayer"></div>
 
 <script>
-    // 트랙 배열 (videoId, cover, title)
+    // tracks 배열 (videoId, cover, title)
     const tracks = [
-        { videoId: "H8U0jdveLbo", cover: "cover1.jpg", title: "custom Title" },
-        { videoId: "5JqY-6q-RNA", cover: "cover2.jpg", title: "" },
-        { videoId: "oPA0z4W-kcU", cover: "cover3.jpg", title: "" }
+        { videoId: "TSVz4FPjpWs", cover: "AIRINNE.png", title: "" },
+        { videoId: "AsAfPxs3vSk", cover: "AIRINNE.png", title: "" },
+        { videoId: "tURqjr8rQMU", cover: "AIRINNE.png", title: "" },
+        { videoId: "gFRMvOlcO_Y", cover: "AIRINNE.png", title: "" },
+        { videoId: "mNiIf3VwkgQ", cover: "AINIKI.png", title: "" },
+        { videoId: "HeriO0jcS-0", cover: "AINIKI.png", title: "" },
+        { videoId: "Nwlb2_BNX8k", cover: "AIRINNE.png", title: "" },
+        { videoId: "IHS05z7lh9U", cover: "AIRINNE.png", title: "" },
+        { videoId: "4aRGde3w8WM", cover: "AIRINNE.png", title: "" },
+        { videoId: "HMQf2MOeK_s", cover: "AIRINNE.png", title: "" },
+        { videoId: "zkmDuP8Y43o", cover: "AIRINNE.png", title: "" },
+        { videoId: "Fqv1NY0wFzw", cover: "AIRINNE.png", title: "" },
+        { videoId: "bF6i23WDPiM", cover: "AINIKI.png", title: "" },
+        { videoId: "Hya_bxNkp-8", cover: "AINIKI.png", title: "" },
+        { videoId: "08SocIOei0g", cover: "AIRINNE.png", title: "" },
+        { videoId: "OpC2YpndnH4", cover: "AINIKI.png", title: "" },
+        { videoId: "EwUlqP9T_5A", cover: "AINIKI.png", title: "" }
     ];
 
     // mm:ss 포맷 함수
@@ -271,13 +274,17 @@
         let isPlaying = false;
         let currentTrack = 0;
         let timeInterval, equalizerInterval;
-        let isFetching = true; // 트랙 정보 수집 중인지 여부
+        let isFetching = true; // 트랙 정보 수집 중 여부
         let playerReadyResolve;
         const playerReadyPromise = new Promise((resolve) => {
             playerReadyResolve = resolve;
         });
+        // 랜덤 재생 모드 (기본값: 꺼짐)
+        let isRandom = false;
+        // 랜덤 재생 시 재생된 곡의 인덱스를 저장할 임시 배열
+        let playedRandomIndices = [];
 
-        // UI 이벤트(플레이/일시정지, 볼륨, 프로그레스바) 초기화
+        // UI 이벤트 초기화
         function init() {
             document.getElementById('playPauseBtn').addEventListener('click', togglePlay);
             document.getElementById('volumeSlider').addEventListener('input', function() {
@@ -292,6 +299,24 @@
                     player.seekTo(newTime, true);
                 }
             });
+            // 랜덤 재생 토글 버튼 이벤트 추가
+            document.getElementById('randomToggleBtn').addEventListener('click', toggleRandom);
+        }
+
+        // 랜덤 모드 토글 함수 (시각적으로 active 클래스 추가)
+        function toggleRandom() {
+            isRandom = !isRandom;
+            const btn = document.getElementById('randomToggleBtn');
+            if (isRandom) {
+                btn.textContent = '랜덤: 켜짐';
+                btn.classList.add('active');
+                // 랜덤 재생 이력 초기화
+                playedRandomIndices = [];
+            } else {
+                btn.textContent = '랜덤: 꺼짐';
+                btn.classList.remove('active');
+                playedRandomIndices = [];
+            }
         }
 
         // 플레이어 생성 (처음엔 첫 곡을 cue)
@@ -319,14 +344,12 @@
             return playerReadyPromise;
         }
 
-        // 플레이어 준비 완료 시 호출
         function onPlayerReady(event) {
             playerReadyResolve();
             updatePlaylistInfo(getFormattedTime());
             updateTrackDetails();
         }
 
-        // 재생 상태 변경 이벤트 (정보 수집 중에는 무시)
         function onPlayerStateChange(event) {
             if (isFetching) return;
             if (event.data === YT.PlayerState.PLAYING && !isPlaying) {
@@ -439,12 +462,34 @@
             equalizerInterval = setInterval(updateEqualizer, 200);
         }
 
+        // nextTrack() 함수 수정 – 랜덤 모드일 경우 재생된 곡의 인덱스를 관리하여 중복 없이 재생
         function nextTrack() {
-            currentTrack = (currentTrack + 1) % tracks.length;
+            if (isRandom) {
+                // 만약 모든 곡이 재생되었다면 재생 이력을 초기화
+                if (playedRandomIndices.length >= tracks.length - 1) {
+                    playedRandomIndices = [];
+                }
+                // 사용 가능한 인덱스 목록 생성 (현재 곡 제외)
+                let availableIndices = [];
+                for (let i = 0; i < tracks.length; i++) {
+                    if (i !== currentTrack && !playedRandomIndices.includes(i)) {
+                        availableIndices.push(i);
+                    }
+                }
+                // 만약 availableIndices가 비어있다면(예: 트랙이 1개인 경우)
+                if (availableIndices.length === 0) {
+                    availableIndices.push(currentTrack);
+                }
+                // 랜덤하게 인덱스 선택
+                const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+                playedRandomIndices.push(randomIndex);
+                currentTrack = randomIndex;
+            } else {
+                currentTrack = (currentTrack + 1) % tracks.length;
+            }
             changeTrack(currentTrack);
         }
 
-        // 메인 플레이어를 사용하여 해당 영상 정보를 cue하고 받아오는 함수
         function cueTrackAndGetInfo(videoId) {
             return new Promise((resolve, reject) => {
                 let timeout = setTimeout(() => {
@@ -467,10 +512,8 @@
             });
         }
 
-        // 정보 수집이 끝난 후, 실제 재생을 위한 설정
         function finishFetching() {
             isFetching = false;
-            // 첫 곡 재생을 위해 load
             player.loadVideoById(tracks[currentTrack].videoId);
             updatePlaylistInfo(getFormattedTime());
         }
@@ -486,10 +529,8 @@
         };
     })();
 
-    // 모든 트랙 정보를 순차적으로 가져오는 함수 (메인 플레이어 사용)
     async function fetchAllTrackInfo() {
         for (let track of tracks) {
-            // title이 없는 경우에만 정보를 가져오고, 이미 있다면 duration만 업데이트
             if (!track.title) {
                 try {
                     const info = await PlayerModule.cueTrackAndGetInfo(track.videoId);
@@ -512,7 +553,6 @@
         }
     }
 
-    // YouTube IFrame API가 준비되면 호출되는 전역 함수
     function onYouTubeIframeAPIReady() {
         PlayerModule.createPlayer();
         PlayerModule.init();
