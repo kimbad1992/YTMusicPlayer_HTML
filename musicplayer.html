@@ -25,13 +25,13 @@
         }
 
         .album-cover {
-            width: 300px; /* 원하는 고정 너비 */
-            height: 300px; /* 원하는 고정 높이 */
-            object-fit: cover; /* 이미지가 요소 크기에 맞춰 자르거나 축소됨 */
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
             border-radius: 10px;
         }
 
-        /* 새로 추가된 곡 정보 영역 */
+        /* 곡 정보 영역 */
         #trackDetails {
             margin-top: 10px;
             font-size: 16px;
@@ -56,7 +56,7 @@
             cursor: pointer;
         }
 
-        /* 볼륨 슬라이더 (커스텀 디자인) */
+        /* 볼륨 슬라이더 */
         .volume-slider {
             width: 100px;
             -webkit-appearance: none;
@@ -81,7 +81,7 @@
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* 프로그레스바 (커스텀 디자인) */
+        /* 프로그레스바 */
         .progress-container {
             margin: 10px 0;
         }
@@ -111,7 +111,7 @@
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* 재생목록 동적 생성 영역 */
+        /* 재생목록 */
         .playlist {
             margin-top: 20px;
             text-align: left;
@@ -138,7 +138,7 @@
         .track-info {
             display: flex;
             align-items: center;
-            gap: 10px; /* 재생시간과 equalizer 사이 간격 */
+            gap: 10px;
         }
 
         .time-display {
@@ -148,7 +148,7 @@
             text-align: right;
         }
 
-        /* Equalizer: active 항목에서만 보임 */
+        /* Equalizer (활성화된 항목에서만 보임) */
         .equalizer {
             display: none;
         }
@@ -156,7 +156,7 @@
         .playlist-item.active .equalizer {
             display: inline-flex;
             vertical-align: middle;
-            height: 30px; /* 고정 높이 */
+            height: 30px;
             overflow: hidden;
         }
 
@@ -168,7 +168,6 @@
             transition: transform 0.2s ease-in-out;
         }
 
-        /* 무지개색 지정 */
         .equalizer .bar:nth-child(1) {
             background-color: #FF0000;
         }
@@ -189,7 +188,7 @@
             background-color: #0000FF;
         }
 
-        /* 숨김 처리할 임시 플레이어 */
+        /* 숨김 처리할 임시 요소 (더 이상 사용하지 않음) */
         #tempPlayer {
             display: none;
         }
@@ -214,56 +213,12 @@
 <div id="tempPlayer"></div>
 
 <script>
-    // tracks 배열 (videoId, cover, title; title이 비어있으면 임시 플레이어에서 가져올 예정)
+    // 트랙 배열 (videoId, cover, title)
     const tracks = [
         { videoId: "H8U0jdveLbo", cover: "cover1.jpg", title: "custom Title" },
         { videoId: "5JqY-6q-RNA", cover: "cover2.jpg", title: "" },
         { videoId: "oPA0z4W-kcU", cover: "cover3.jpg", title: "" }
     ];
-
-    // 임시 플레이어를 사용해서 곡 정보를 가져오는 함수
-    function fetchTrackInfo(videoId) {
-        return new Promise((resolve, reject) => {
-            const tempDiv = document.createElement("div");
-            tempDiv.id = "tempPlayer_" + videoId;
-            document.getElementById("tempPlayer").appendChild(tempDiv);
-            const tempPlayer = new YT.Player(tempDiv.id, {
-                height: "0",
-                width: "0",
-                videoId: videoId,
-                events: {
-                    onReady: function () {
-                        setTimeout(() => {
-                            const videoData = tempPlayer.getVideoData();
-                            const duration = tempPlayer.getDuration();
-                            tempPlayer.destroy();
-                            tempDiv.remove();
-                            resolve({ title: videoData.title, totalSeconds: duration });
-                        }, 500);
-                    },
-                    onError: function (e) {
-                        tempPlayer.destroy();
-                        tempDiv.remove();
-                        reject(e);
-                    }
-                }
-            });
-        });
-    }
-
-    // 모든 트랙 정보를 순차적으로 불러오기
-    function fetchAllTrackInfo() {
-        return tracks.reduce((chain, track) => {
-            return chain.then(() =>
-                fetchTrackInfo(track.videoId).then(info => {
-                    if (!track.title) {
-                        track.title = info.title;
-                    }
-                    track.totalSeconds = info.totalSeconds;
-                })
-            );
-        }, Promise.resolve());
-    }
 
     // mm:ss 포맷 함수
     function formatTime(seconds) {
@@ -276,6 +231,7 @@
     // 재생목록 동적 생성 함수
     function drawPlaylist() {
         const container = document.getElementById("playlistContainer");
+        container.innerHTML = "<h3>🎵 재생 목록</h3>"; // 기존 목록 초기화
         tracks.forEach((track, idx) => {
             const item = document.createElement("div");
             item.className = "playlist-item";
@@ -309,34 +265,43 @@
         });
     }
 
-    // 메인 플레이어 모듈 (PlayerModule)
-    const PlayerModule = (function () {
-        let player, isPlaying = false, currentTrack = 0, timeInterval, equalizerInterval;
+    // PlayerModule: 메인 플레이어 생성 및 제어
+    const PlayerModule = (function() {
+        let player;
+        let isPlaying = false;
+        let currentTrack = 0;
+        let timeInterval, equalizerInterval;
+        let isFetching = true; // 트랙 정보 수집 중인지 여부
+        let playerReadyResolve;
+        const playerReadyPromise = new Promise((resolve) => {
+            playerReadyResolve = resolve;
+        });
 
+        // UI 이벤트(플레이/일시정지, 볼륨, 프로그레스바) 초기화
         function init() {
             document.getElementById('playPauseBtn').addEventListener('click', togglePlay);
-            document.getElementById('volumeSlider').addEventListener('input', function () {
+            document.getElementById('volumeSlider').addEventListener('input', function() {
                 if (player && typeof player.setVolume === "function") {
                     player.setVolume(this.value);
                 }
             });
-            document.getElementById("progressBar").addEventListener("input", function () {
+            document.getElementById("progressBar").addEventListener("input", function() {
                 if (player && typeof player.getDuration === "function") {
                     const duration = player.getDuration();
                     const newTime = (this.value / 100) * duration;
                     player.seekTo(newTime, true);
                 }
             });
-            updateTrackDetails();
         }
 
-        function onYouTubeIframeAPIReady() {
+        // 플레이어 생성 (처음엔 첫 곡을 cue)
+        function createPlayer() {
             player = new YT.Player('player', {
                 height: '0',
                 width: '0',
-                videoId: tracks[currentTrack].videoId,
+                videoId: tracks[0].videoId,
                 playerVars: {
-                    autoplay: 1,
+                    autoplay: 0,
                     controls: 0,
                     showinfo: 0,
                     modestbranding: 1,
@@ -350,12 +315,20 @@
             });
         }
 
-        function onPlayerReady() {
+        function waitForPlayerReady() {
+            return playerReadyPromise;
+        }
+
+        // 플레이어 준비 완료 시 호출
+        function onPlayerReady(event) {
+            playerReadyResolve();
             updatePlaylistInfo(getFormattedTime());
             updateTrackDetails();
         }
 
+        // 재생 상태 변경 이벤트 (정보 수집 중에는 무시)
         function onPlayerStateChange(event) {
+            if (isFetching) return;
             if (event.data === YT.PlayerState.PLAYING && !isPlaying) {
                 isPlaying = true;
                 document.getElementById('playPauseBtn').textContent = '⏸';
@@ -409,7 +382,7 @@
         function updateEqualizer() {
             const bars = document.querySelectorAll('.playlist-item.active .equalizer .bar');
             bars.forEach(bar => {
-                const randomScale = 0.5 + Math.random(); // 0.5 ~ 1.5
+                const randomScale = 0.5 + Math.random();
                 bar.style.transform = `scaleY(${randomScale})`;
             });
         }
@@ -441,6 +414,12 @@
             updateTrackDetails();
         }
 
+        function updateTrackDetails() {
+            const detailsEl = document.getElementById("trackDetails");
+            const track = tracks[currentTrack];
+            detailsEl.innerHTML = `<strong>${track.title}</strong><br/>전체시간: ${formatTime(track.totalSeconds)}`;
+        }
+
         function changeTrack(index) {
             if (!player || typeof player.loadVideoById !== "function") {
                 setTimeout(() => changeTrack(index), 500);
@@ -465,29 +444,83 @@
             changeTrack(currentTrack);
         }
 
-        function updateTrackDetails() {
-            const detailsEl = document.getElementById("trackDetails");
-            const track = tracks[currentTrack];
-            detailsEl.innerHTML = `<strong>${track.title}</strong><br/>전체시간: ${formatTime(track.totalSeconds)}`;
+        // 메인 플레이어를 사용하여 해당 영상 정보를 cue하고 받아오는 함수
+        function cueTrackAndGetInfo(videoId) {
+            return new Promise((resolve, reject) => {
+                let timeout = setTimeout(() => {
+                    player.removeEventListener('onStateChange', onCued);
+                    reject(new Error("Timeout while cueing video " + videoId));
+                }, 3000);
+                function onCued(event) {
+                    if (event.data === YT.PlayerState.CUED) {
+                        if (player.getVideoData().video_id === videoId) {
+                            clearTimeout(timeout);
+                            player.removeEventListener('onStateChange', onCued);
+                            const videoData = player.getVideoData();
+                            const duration = player.getDuration();
+                            resolve({ title: videoData.title, totalSeconds: duration });
+                        }
+                    }
+                }
+                player.addEventListener('onStateChange', onCued);
+                player.cueVideoById(videoId);
+            });
+        }
+
+        // 정보 수집이 끝난 후, 실제 재생을 위한 설정
+        function finishFetching() {
+            isFetching = false;
+            // 첫 곡 재생을 위해 load
+            player.loadVideoById(tracks[currentTrack].videoId);
+            updatePlaylistInfo(getFormattedTime());
         }
 
         return {
             init,
-            onYouTubeIframeAPIReady,
-            changeTrack
+            createPlayer,
+            waitForPlayerReady,
+            togglePlay,
+            changeTrack,
+            finishFetching,
+            cueTrackAndGetInfo
         };
     })();
 
-    PlayerModule.init();
+    // 모든 트랙 정보를 순차적으로 가져오는 함수 (메인 플레이어 사용)
+    async function fetchAllTrackInfo() {
+        for (let track of tracks) {
+            // title이 없는 경우에만 정보를 가져오고, 이미 있다면 duration만 업데이트
+            if (!track.title) {
+                try {
+                    const info = await PlayerModule.cueTrackAndGetInfo(track.videoId);
+                    track.title = info.title;
+                    track.totalSeconds = info.totalSeconds;
+                } catch (err) {
+                    console.error("트랙 정보 가져오기 에러:", track.videoId, err);
+                    track.title = track.videoId;
+                    track.totalSeconds = 0;
+                }
+            } else {
+                try {
+                    const info = await PlayerModule.cueTrackAndGetInfo(track.videoId);
+                    track.totalSeconds = info.totalSeconds;
+                } catch (err) {
+                    console.error("트랙 정보 가져오기 에러:", track.videoId, err);
+                    track.totalSeconds = 0;
+                }
+            }
+        }
+    }
 
-    async function onYouTubeIframeAPIReady() {
-        try {
+    // YouTube IFrame API가 준비되면 호출되는 전역 함수
+    function onYouTubeIframeAPIReady() {
+        PlayerModule.createPlayer();
+        PlayerModule.init();
+        PlayerModule.waitForPlayerReady().then(async () => {
             await fetchAllTrackInfo();
             drawPlaylist();
-            PlayerModule.onYouTubeIframeAPIReady();
-        } catch (err) {
-            console.error("트랙 정보 불러오기 에러", err);
-        }
+            PlayerModule.finishFetching();
+        });
     }
 </script>
 </body>
